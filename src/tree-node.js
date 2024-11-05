@@ -84,7 +84,8 @@ class TreeNode extends Component {
         <div
           key={`pre_${1 + i}`}
           style={{ width: scaffoldBlockPxWidth }}
-          className={classnames('rst__lineBlock', lineClass, rowDirectionClass)}
+          // TODO: find more effective way to do this (without altering the TreeNode component)
+          className={classnames('rst__lineBlock', lineClass, rowDirectionClass, `rst__line_${1 + i}`)}
         />
       );
 

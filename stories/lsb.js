@@ -1,60 +1,31 @@
 import React, { Component } from 'react';
-import FileExplorerTheme from 'react-sortable-tree-theme-file-explorer';
+import styled from 'styled-components';
 
 import SortableTree, { addNodeUnderParent, removeNodeAtPath } from '../src';
+import NodeRendererLSB from '../themes/lsb/node-renderer';
 // In your own app, you would need to use import styles once in the app
 // import 'react-sortable-tree/styles.css';
 
-const firstNames = [
-  'Abraham',
-  'Adam',
-  'Agnar',
-  'Albert',
-  'Albin',
-  'Albrecht',
-  'Alexander',
-  'Alfred',
-  'Alvar',
-  'Ander',
-  'Andrea',
-  'Arthur',
-  'Axel',
-  'Bengt',
-  'Bernhard',
-  'Carl',
-  'Daniel',
-  'Einar',
-  'Elmer',
-  'Eric',
-  'Erik',
-  'Gerhard',
-  'Gunnar',
-  'Gustaf',
-  'Harald',
-  'Herbert',
-  'Herman',
-  'Johan',
-  'John',
-  'Karl',
-  'Leif',
-  'Leonard',
-  'Martin',
-  'Matt',
-  'Mikael',
-  'Nikla',
-  'Norman',
-  'Oliver',
-  'Olof',
-  'Olvir',
-  'Otto',
-  'Patrik',
-  'Peter',
-  'Petter',
-  'Robert',
-  'Rupert',
-  'Sigurd',
-  'Simon',
-];
+const WrapperStyled = styled.div`
+  // Color lines between nodes
+  .rst__lineHalfHorizontalRight::before,
+  .rst__lineFullVertical::after,
+  .rst__lineHalfVerticalTop::after,
+  .rst__lineHalfVerticalBottom::after {
+    background-color: #bbb;
+  }
+  // Hide lines from child nodes
+  .rst__lineChildren {
+    color: #bbb;
+  }
+
+  // .rst__tree > div > div > div > .rst__node > .rst__lineBlock:first-child {
+  //   // display: none;
+  // }
+  .rst__line_1 {
+    visibility: hidden;
+  }
+`;
 
 export default class App extends Component {
   constructor(props) {
@@ -62,96 +33,63 @@ export default class App extends Component {
 
     this.state = {
       treeData: [
-        { title: 'Folder 1' },
-        { title: 'Folder 2' },
-        { title: 'Folder 3' },
+        { title: 'Category 1.1' },
+        {
+          title: 'Category 1.2',
+          expanded: true,
+          children: [
+            {
+              title: 'Category 1.2.1',
+              expanded: true,
+              children: [
+                { title: 'Category 1.2.1.1' },
+                { title: 'Category 1.2.1.2' },
+                { title: 'Category 1.2.1.3' },
+                { title: 'Category 1.2.1.4' },
+                { title: 'Category 1.2.1.5' },
+              ]
+            },
+            { title: 'Category 1.2.2' },
+          ]
+        },
+        { title: 'Category 1.3' },
+        { title: 'Category 2.1' },
+        { title: 'Category 2.2' },
       ],
-      addAsFirstChild: false,
+      // addAsFirstChild: false,
     };
   }
 
+
   render() {
-    const getNodeKey = ({ treeIndex }) => treeIndex;
-    const getRandomName = () =>
-      firstNames[Math.floor(Math.random() * firstNames.length)];
+    // const getNodeKey = ({ treeIndex }) => treeIndex;
+    // const getRandomName = () =>
+    //   firstNames[Math.floor(Math.random() * firstNames.length)];
     return (
-      <div>
+      <WrapperStyled>
+        <div style={{
+          padding: 15,
+          fontWeight: 'bold',
+          border: 'solid 1px #bbb',
+          borderBottom: 'none',
+        }}>
+          {/* <span
+            className="material-icons"
+            style={{ verticalAlign: 'sub', marginRight: 5 }}
+          >folder_copy</span> */}
+          Folder 1
+        </div>
         <div style={{ height: 1000 }}>
           <SortableTree
             treeData={this.state.treeData}
             onChange={treeData => this.setState({ treeData })}
-            // theme={{
-            //   nodeContentRenderer: FileExplorerTheme.nodeContentRenderer,
-            // }}
-            // generateNodeProps={({ node, path }) => ({
-            //   buttons: [
-            //     <button
-            //       type='button'
-            //       onClick={() =>
-            //         this.setState(state => ({
-            //           treeData: addNodeUnderParent({
-            //             treeData: state.treeData,
-            //             parentKey: path[path.length - 1],
-            //             expandParent: true,
-            //             getNodeKey,
-            //             newNode: {
-            //               title: `${getRandomName()} ${
-            //                 node.title.split(' ')[0]
-            //               }sson`,
-            //             },
-            //             addAsFirstChild: state.addAsFirstChild,
-            //           }).treeData,
-            //         }))
-            //       }
-            //     >
-            //       Add Child
-            //     </button>,
-            //     <button
-            //       type='button'
-            //       onClick={() =>
-            //         this.setState(state => ({
-            //           treeData: removeNodeAtPath({
-            //             treeData: state.treeData,
-            //             path,
-            //             getNodeKey,
-            //           }),
-            //         }))
-            //       }
-            //     >
-            //       Remove
-            //     </button>,
-            //   ],
-            // })}
+            // scaffoldBlockPxWidth={20}
+            theme={{
+              nodeContentRenderer: NodeRendererLSB
+            }}
           />
         </div>
-
-        <button
-          type='button'
-          onClick={() =>
-            this.setState(state => ({
-              treeData: state.treeData.concat({
-                title: `${getRandomName()} ${getRandomName()}sson`,
-              }),
-            }))
-          }
-        >
-          Add more
-        </button>
-        <br />
-        <label htmlFor="addAsFirstChild">
-          Add new nodes at start
-          <input
-            name="addAsFirstChild"
-            type="checkbox"
-            checked={this.state.addAsFirstChild}
-            onChange={() =>
-              this.setState(state => ({
-                addAsFirstChild: !state.addAsFirstChild,
-              }))
-            }
-          />
-        </label>
-      </div>
+      </WrapperStyled>
     );
   }
 }

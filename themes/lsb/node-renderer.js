@@ -5,6 +5,39 @@ import classnames from '../../src/utils/classnames';
 import '../../src/node-renderer-default.css';
 
 class NodeRendererRSB extends Component {
+  renderButtons(){
+    const { node } = this.props;
+
+    return (
+      <div
+        // className="rst__rowToolbar"
+        style={{ position: 'fixed', right: 10, color: '#999' }}
+      >
+        <button
+          type="button"
+          style={{ border: 'none', background: 'none' }}
+          onClick={() => console.log('!clicked visibility', node)}
+        >
+          <span className="material-icons" style={{ verticalAlign: 'sub', fontSize: 18, color: '#555' }}>visibility_off</span>
+        </button>
+        <button
+          type="button"
+          style={{ border: 'none', background: 'none' }}
+          onClick={() => console.log('!clicked delete', node)}
+        >
+          <span className="material-icons" style={{ verticalAlign: 'sub', fontSize: 18, color: node?.children?.length ? '#ccc' : '#555' }}>delete</span>
+        </button>
+        <button
+          type="button"
+          style={{ border: 'none', background: 'none' }}
+          onClick={() => console.log('!clicked edit', node)}
+        >
+          <span className="material-icons" style={{ verticalAlign: 'sub', fontSize: 18, color: '#555' }}>edit</span>
+        </button>
+      </div>
+    );
+  }
+
   render() {
     const {
       scaffoldBlockPxWidth,
@@ -59,7 +92,7 @@ class NodeRendererRSB extends Component {
         );
       } else {
         // Show the handle used to initiate a drag-and-drop
-        handle = connectDragSource(<span className="material-icons" style={{ marginLeft: 16, verticalAlign: 'sub' }}>menu</span>, {
+        handle = connectDragSource(<span className="material-icons" style={{ marginLeft: 16, verticalAlign: 'sub' }}>{node?.children?.length ? 'list_alt' : 'local_offer'}</span>, {
           dropEffect: 'copy',
         });
       }
@@ -189,20 +222,7 @@ class NodeRendererRSB extends Component {
                       : nodeTitle}
                   </span>
                 </div>
-                {/* BUTTONS */}
-                {/* <div
-                  className="rst__rowToolbar"
-                  // style={{ border: 'solid 1px yellow' }}
-                >
-                  {buttons.map((btn, index) => (
-                    <div
-                      key={index} // eslint-disable-line react/no-array-index-key
-                      className="rst__toolbarButton"
-                    >
-                      {btn}
-                    </div>
-                  ))}
-                </div> */}
+                {this.renderButtons()}
               </div>
             </div>
           )}

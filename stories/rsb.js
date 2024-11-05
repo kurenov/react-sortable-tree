@@ -85,6 +85,10 @@ export default class App extends Component {
           border: 'solid 1px #bbb',
           borderBottom: 'none',
         }}>
+          <span
+            className="material-icons"
+            style={{ verticalAlign: 'sub', marginRight: 5 }}
+          >folder_copy</span>
           Visible Categories
         </div>
         <div style={{ height: 1000 }}>
