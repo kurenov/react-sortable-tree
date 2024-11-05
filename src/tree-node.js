@@ -29,7 +29,8 @@ class TreeNode extends Component {
     const rowDirectionClass = rowDirection === 'rtl' ? 'rst__rtl' : null;
 
     // Construct the scaffold representing the structure of the tree
-    const scaffoldBlockCount = lowerSiblingCounts.length;
+    // const scaffoldBlockCount = lowerSiblingCounts.length - 1;
+    const scaffoldBlockCount = lowerSiblingCounts.length - 1;
     const scaffold = [];
     lowerSiblingCounts.forEach((lowerSiblingCount, i) => {
       let lineClass = '';

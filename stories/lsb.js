@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import FileExplorerTheme from 'react-sortable-tree-theme-file-explorer';
+
 import SortableTree, { addNodeUnderParent, removeNodeAtPath } from '../src';
 // In your own app, you would need to use import styles once in the app
 // import 'react-sortable-tree/styles.css';
@@ -59,7 +61,11 @@ export default class App extends Component {
     super(props);
 
     this.state = {
-      treeData: [{ title: 'Peter Olofsson' }, { title: 'Karl Johansson' }],
+      treeData: [
+        { title: 'Folder 1' },
+        { title: 'Folder 2' },
+        { title: 'Folder 3' },
+      ],
       addAsFirstChild: false,
     };
   }
@@ -70,51 +76,57 @@ export default class App extends Component {
       firstNames[Math.floor(Math.random() * firstNames.length)];
     return (
       <div>
-        <div style={{ height: 300 }}>
+        <div style={{ height: 1000 }}>
           <SortableTree
             treeData={this.state.treeData}
             onChange={treeData => this.setState({ treeData })}
-            generateNodeProps={({ node, path }) => ({
-              buttons: [
-                <button
-                  onClick={() =>
-                    this.setState(state => ({
-                      treeData: addNodeUnderParent({
-                        treeData: state.treeData,
-                        parentKey: path[path.length - 1],
-                        expandParent: true,
-                        getNodeKey,
-                        newNode: {
-                          title: `${getRandomName()} ${
-                            node.title.split(' ')[0]
-                          }sson`,
-                        },
-                        addAsFirstChild: state.addAsFirstChild,
-                      }).treeData,
-                    }))
-                  }
-                >
-                  Add Child
-                </button>,
-                <button
-                  onClick={() =>
-                    this.setState(state => ({
-                      treeData: removeNodeAtPath({
-                        treeData: state.treeData,
-                        path,
-                        getNodeKey,
-                      }),
-                    }))
-                  }
-                >
-                  Remove
-                </button>,
-              ],
-            })}
+            // theme={{
+            //   nodeContentRenderer: FileExplorerTheme.nodeContentRenderer,
+            // }}
+            // generateNodeProps={({ node, path }) => ({
+            //   buttons: [
+            //     <button
+            //       type='button'
+            //       onClick={() =>
+            //         this.setState(state => ({
+            //           treeData: addNodeUnderParent({
+            //             treeData: state.treeData,
+            //             parentKey: path[path.length - 1],
+            //             expandParent: true,
+            //             getNodeKey,
+            //             newNode: {
+            //               title: `${getRandomName()} ${
+            //                 node.title.split(' ')[0]
+            //               }sson`,
+            //             },
+            //             addAsFirstChild: state.addAsFirstChild,
+            //           }).treeData,
+            //         }))
+            //       }
+            //     >
+            //       Add Child
+            //     </button>,
+            //     <button
+            //       type='button'
+            //       onClick={() =>
+            //         this.setState(state => ({
+            //           treeData: removeNodeAtPath({
+            //             treeData: state.treeData,
+            //             path,
+            //             getNodeKey,
+            //           }),
+            //         }))
+            //       }
+            //     >
+            //       Remove
+            //     </button>,
+            //   ],
+            // })}
           />
         </div>
 
         <button
+          type='button'
           onClick={() =>
             this.setState(state => ({
               treeData: state.treeData.concat({
