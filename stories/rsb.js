@@ -79,10 +79,19 @@ export default class App extends Component {
     //   firstNames[Math.floor(Math.random() * firstNames.length)];
     return (
       <WrapperStyled>
+        <div style={{
+          padding: 15,
+          fontWeight: 'bold',
+          border: 'solid 1px #bbb',
+          borderBottom: 'none',
+        }}>
+          Visible Categories
+        </div>
         <div style={{ height: 1000 }}>
           <SortableTree
             treeData={this.state.treeData}
             onChange={treeData => this.setState({ treeData })}
+            scaffoldBlockPxWidth={20}
             // generateNodeProps={({ node, path }) => ({
             //   buttons: [
             //     <button
