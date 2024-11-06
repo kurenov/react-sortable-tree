@@ -4,6 +4,7 @@ import { storiesOf } from '@storybook/react';
 import React from 'react';
 import RSB from './rsb';
 import LSB from './lsb';
+import LSBMulti from './lsb-multi';
 // import BarebonesExample from './barebones';
 // import BarebonesExampleNoContext from './barebones-no-context';
 // import CallbacksExample from './callbacks';
@@ -26,6 +27,7 @@ storiesOf('Categories POC', module)
   // .add('Minimal implementation', () => <BarebonesExample />)
   // .add('treeData import/export', () => <TreeDataIOExample />)
   .add('LSB', () => <LSB />)
+  .add('LSBMulti', () => <LSBMulti />)
   .add('RSB', () => <RSB />)
   // .add('Modify nodes', () => <ModifyNodesExample />)
   // .add('Prevent drop', () => <CanDropExample />)

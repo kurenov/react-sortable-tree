@@ -61,7 +61,7 @@ class NodeRendererRSB extends Component {
         handle = null;
       } else {
         // Show the handle used to initiate a drag-and-drop
-        handle = connectDragSource(<span className="material-icons" style={{ marginLeft: 16, verticalAlign: 'sub' }}>menu</span>, {
+        handle = connectDragSource(<span className="material-icons" style={{ marginLeft: 16, paddingTop: 7 }}>menu</span>, {
           dropEffect: 'copy',
         });
       }

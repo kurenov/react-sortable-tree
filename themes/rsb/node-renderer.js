@@ -4,7 +4,7 @@ import { isDescendant } from '../../src/utils/tree-data-utils';
 import classnames from '../../src/utils/classnames';
 import '../../src/node-renderer-default.css';
 
-const showCollapseButton = true;
+const showCollapseButton = false;
 
 class NodeRendererRSB extends Component {
   renderButtons(){
@@ -100,7 +100,6 @@ class NodeRendererRSB extends Component {
     //   }
     // }
 
-    console.log('!node?.children', node?.children);
     // Draggable
     const handle = (
       <span

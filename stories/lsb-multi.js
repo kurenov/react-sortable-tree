@@ -36,7 +36,7 @@ export default class App extends Component {
     super(props);
 
     this.state = {
-      treeData: [
+      treeDataFolders: [
         {
           title: 'Folder 1',
           expanded: true,
@@ -63,6 +63,8 @@ export default class App extends Component {
           ],
         },
         { title: 'Folder 3', type: 'folder', },
+      ],
+      treeDataCategories: [
         { title: 'Root Category 1', type: 'category', },
         { title: 'Root Category 2', type: 'category', },
         { title: 'Root Category 3', type: 'category', },
@@ -90,9 +92,6 @@ export default class App extends Component {
 
 
   render() {
-    // const getNodeKey = ({ treeIndex }) => treeIndex;
-    // const getRandomName = () =>
-    //   firstNames[Math.floor(Math.random() * firstNames.length)];
     return (
       <WrapperStyled>
         <div style={{
@@ -107,96 +106,45 @@ export default class App extends Component {
           >folder_copy</span>
           Visible Categories
         </div>
-        <div style={{ height: 1000 }}>
+        <div style={{ height: 500 }}>
           <SortableTree
-            virtualized
-            maxDepth={4}
-            treeData={this.state.treeData}
+            maxDepth={5}
+            treeData={this.state.treeDataFolders}
             onChange={treeData => {
-              this.setState({
-                treeData: treeData.sort((a, b) => {
-                  if (a.type === 'folder' && b.type !== 'folder') {
-                    return -1;
-                  }
-                  if (b.type === 'folder' && a.type !== 'folder') {
-                    return 1;
-                  }
-                  return 0;
-                })
-              });
+              const updatedState = {
+                treeDataFolders: treeData
+              };
+              // Move any root categories to the categories tree
+              const rootCategories = treeData.filter(node => node.type !== 'folder');
+              if (rootCategories.length) {
+                updatedState.treeDataCategories = rootCategories.concat(updatedState.treeDataCategories);
+                updatedState.treeDataFolders = treeData.filter(node => node.type === 'folder');
+              }
+              this.setState(updatedState);
             }}
             scaffoldBlockPxWidth={20}
-            // generateNodeProps={({ node, path }) => ({
-            //   buttons: [
-            //     <button
-            //       type='button'
-            //       onClick={() =>
-            //         this.setState(state => ({
-            //           treeData: addNodeUnderParent({
-            //             treeData: state.treeData,
-            //             parentKey: path[path.length - 1],
-            //             expandParent: true,
-            //             getNodeKey,
-            //             newNode: {
-            //               title: `${getRandomName()} ${
-            //                 node.title.split(' ')[0]
-            //               }sson`,
-            //             },
-            //             addAsFirstChild: state.addAsFirstChild,
-            //           }).treeData,
-            //         }))
-            //       }
-            //     >
-            //       Add Child
-            //     </button>,
-            //     <button
-            //       type='button'
-            //       onClick={() =>
-            //         this.setState(state => ({
-            //           treeData: removeNodeAtPath({
-            //             treeData: state.treeData,
-            //             path,
-            //             getNodeKey,
-            //           }),
-            //         }))
-            //       }
-            //     >
-            //       Remove
-            //     </button>,
-            //   ]
-            // })}
             theme={{
               nodeContentRenderer: NodeRendererRSB
             }}
+            dndType={'my-dnd-type'}
           />
         </div>
-
-        {/* <button
-          type='button'
-          onClick={() =>
-            this.setState(state => ({
-              treeData: state.treeData.concat({
-                title: `${getRandomName()} ${getRandomName()}sson`,
-              }),
-            }))
-          }
-        >
-          Add more
-        </button>
-        <br />
-        <label htmlFor="addAsFirstChild">
-          Add new nodes at start
-          <input
-            name="addAsFirstChild"
-            type="checkbox"
-            checked={this.state.addAsFirstChild}
-            onChange={() =>
-              this.setState(state => ({
-                addAsFirstChild: !state.addAsFirstChild,
-              }))
-            }
+        <div style={{ height: 500 }}>
+          <SortableTree
+            maxDepth={4}
+            treeData={this.state.treeDataCategories}
+            onChange={treeData => {
+              this.setState({
+                treeDataCategories: treeData
+              });
+            }}
+            scaffoldBlockPxWidth={20}
+            theme={{
+              nodeContentRenderer: NodeRendererRSB
+            }}
+            dndType={'my-dnd-type'}
           />
-        </label> */}
+        </div>
       </WrapperStyled>
     );
   }
