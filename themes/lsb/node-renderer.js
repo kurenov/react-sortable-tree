@@ -5,39 +5,6 @@ import classnames from '../../src/utils/classnames';
 import '../../src/node-renderer-default.css';
 
 class NodeRendererRSB extends Component {
-  renderButtons(){
-    const { node } = this.props;
-
-    return (
-      <div
-        // className="rst__rowToolbar"
-        style={{ position: 'fixed', right: 10, color: '#999' }}
-      >
-        <button
-          type="button"
-          style={{ border: 'none', background: 'none' }}
-          onClick={() => console.log('!clicked visibility', node)}
-        >
-          <span className="material-icons" style={{ verticalAlign: 'sub', fontSize: 18, color: '#555' }}>visibility_off</span>
-        </button>
-        <button
-          type="button"
-          style={{ border: 'none', background: 'none' }}
-          onClick={() => console.log('!clicked delete', node)}
-        >
-          <span className="material-icons" style={{ verticalAlign: 'sub', fontSize: 18, color: node?.children?.length ? '#ccc' : '#555' }}>delete</span>
-        </button>
-        <button
-          type="button"
-          style={{ border: 'none', background: 'none' }}
-          onClick={() => console.log('!clicked edit', node)}
-        >
-          <span className="material-icons" style={{ verticalAlign: 'sub', fontSize: 18, color: '#555' }}>edit</span>
-        </button>
-      </div>
-    );
-  }
-
   render() {
     const {
       scaffoldBlockPxWidth,
@@ -70,33 +37,39 @@ class NodeRendererRSB extends Component {
     const rowDirectionClass = rowDirection === 'rtl' ? 'rst__rtl' : null;
 
     let handle;
-    if (canDrag && node.type !== 'folder' ) {
-      if (typeof node.children === 'function' && node.expanded) {
-        // Show a loading symbol on the handle when the children are expanded
-        //  and yet still defined by a function (a callback to fetch the children)
-        handle = (
-          <div className="rst__loadingHandle">
-            <div className="rst__loadingCircle">
-              {[...new Array(12)].map((_, index) => (
-                <div
-                  // eslint-disable-next-line react/no-array-index-key
-                  key={index}
-                  className={classnames(
-                    'rst__loadingCirclePoint',
-                    rowDirectionClass
-                  )}
-                />
-              ))}
-            </div>
-          </div>
-        );
+    // if (canDrag && node.type !== 'folder' ) {
+      // if (typeof node.children === 'function' && node.expanded) {
+      //   // Show a loading symbol on the handle when the children are expanded
+      //   //  and yet still defined by a function (a callback to fetch the children)
+      //   handle = (
+      //     <div className="rst__loadingHandle">
+      //       <div className="rst__loadingCircle">
+      //         {[...new Array(12)].map((_, index) => (
+      //           <div
+      //             // eslint-disable-next-line react/no-array-index-key
+      //             key={index}
+      //             className={classnames(
+      //               'rst__loadingCirclePoint',
+      //               rowDirectionClass
+      //             )}
+      //           />
+      //         ))}
+      //       </div>
+      //     </div>
+      //   );
+      if (node.type === 'folder' ) {
+        handle = null;
       } else {
         // Show the handle used to initiate a drag-and-drop
-        handle = connectDragSource(<span className="material-icons" style={{ marginLeft: 16, verticalAlign: 'sub' }}>{node?.children?.length ? 'list_alt' : 'local_offer'}</span>, {
+        handle = connectDragSource(<span className="material-icons" style={{ marginLeft: 16, verticalAlign: 'sub' }}>menu</span>, {
           dropEffect: 'copy',
         });
       }
-    }
+    // }
+    // const handle = connectDragSource(
+    //   <span className="material-icons" style={{ marginLeft: 16, verticalAlign: 'sub' }}>menu</span>, {
+    //     dropEffect: 'copy',
+    //   });
 
     const isDraggedDescendant = draggedNode && isDescendant(draggedNode, node);
     const isLandingPadActive = !didDrop && isDragging;
@@ -222,7 +195,20 @@ class NodeRendererRSB extends Component {
                       : nodeTitle}
                   </span>
                 </div>
-                {this.renderButtons()}
+                {/* BUTTONS */}
+                {/* <div
+                  className="rst__rowToolbar"
+                  // style={{ border: 'solid 1px yellow' }}
+                >
+                  {buttons.map((btn, index) => (
+                    <div
+                      key={index} // eslint-disable-line react/no-array-index-key
+                      className="rst__toolbarButton"
+                    >
+                      {btn}
+                    </div>
+                  ))}
+                </div> */}
               </div>
             </div>
           )}
